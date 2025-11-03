@@ -1,0 +1,57 @@
+#setwd("V:/MPA-BTB/MPA-PRG/exercise_08")
+
+
+FindSorted <- function(permutation){
+  len <- length(permutation)
+  for (i in 1:(len-1)){
+    if (permutation[i+1] != (permutation[i]+1)){
+      return((i+1))
+    }
+  }
+  return(-1)
+}
+
+IndicateAscending <- function(permutation){
+  len <- length(permutation)
+  vector <- rep(1,len)
+  for (i in 2:(len)){
+    if (permutation[i-1] > permutation[i]){
+      vector[i] <- 0
+    }
+  }
+  return(vector)
+}
+
+BreakPointSort <- function(permutation){
+  maxim <- max(permutation)+1
+  if (permutation[1] != 0){
+    new_perm <- c(0, permutation, maxim)
+  }
+  else {
+    new_perm <- c(permutation, maxim)
+  }
+  start_unsorted <- FindSorted(new_perm)
+  while (start_unsorted != -1){
+    ascen_descen <- IndicateAscending(new_perm)
+    minim <- maxim
+    for(i in 1:length(ascen_descen)){
+      if (ascen_descen[i] == 0 && new_perm[i] < minim){
+        minim <- new_perm[i]
+        index_minim <- i
+      }
+    }
+    new_perm[start_unsorted:index_minim] <- new_perm[index_minim:start_unsorted]
+    start_unsorted <- FindSorted(new_perm)
+  }
+  return(new_perm[2:(length(new_perm)-1)])
+}
+
+perm1 <- c(0,1,2,3,6,7,4,5,8)
+perm2 <- c(4,5,3,2,1,6,7,8)
+perm3 <- c(5,1,4,3,7,8,9,2,6)
+perm4 <- c(0, 1, 2, 5, 6, 3, 4, 7, 8, 9)
+perm5 <- c(0, 1, 2, 3, 4, 8, 5, 6, 7, 9)
+perm <- perm4
+FindSorted(perm)
+IndicateAscending(perm)
+BreakPointSort(perm)
