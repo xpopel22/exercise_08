@@ -13,10 +13,13 @@ FindSorted <- function(permutation){
 
 IndicateAscending <- function(permutation){
   len <- length(permutation)
-  vector <- rep(1,len)
-  for (i in 2:(len)){
-    if (permutation[i-1] > permutation[i]){
-      vector[i] <- 0
+  vector <- rep(0,len)
+  vector[1] <- 1
+  vector[len] <- 1
+  for (i in 1:(len-1)){
+    if ((permutation[i]+1) == permutation[i+1]){
+      vector[i] <- 1
+      vector[i+1] <- 1
     }
   }
   return(vector)
@@ -41,17 +44,19 @@ BreakPointSort <- function(permutation){
       }
     }
     new_perm[start_unsorted:index_minim] <- new_perm[index_minim:start_unsorted]
+    print(new_perm)
     start_unsorted <- FindSorted(new_perm)
   }
   return(new_perm[2:(length(new_perm)-1)])
 }
 
 perm1 <- c(0,1,2,3,6,7,4,5,8)
-perm2 <- c(4,5,3,2,1,6,7,8)
+perm2 <- c(0,4,5,3,2,1,6,7,8)
 perm3 <- c(5,1,4,3,7,8,9,2,6)
 perm4 <- c(0, 1, 2, 5, 6, 3, 4, 7, 8, 9)
 perm5 <- c(0, 1, 2, 3, 4, 8, 5, 6, 7, 9)
-perm <- perm4
+perm6 <- c(0,5,8,7,1,2,4,6,3,9)
+perm <- perm1
 FindSorted(perm)
 IndicateAscending(perm)
 BreakPointSort(perm)
